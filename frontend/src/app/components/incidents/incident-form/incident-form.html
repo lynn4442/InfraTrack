@@ -1,0 +1,95 @@
+<div class="card" style="max-width:700px;margin:0 auto">
+  <h2>{{ id ? '✏️ Edit Incident' : '➕ New Incident' }}</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
+
+      <div class="form-section">Incident Details</div>
+
+      <div class="form-field form-full">
+        <label>Title</label>
+        <input formControlName="title" type="text" placeholder="e.g. Database connection failure" />
+        @if (form.get('title')?.invalid && form.get('title')?.touched) {
+          <span class="error">Title is required.</span>
+        }
+      </div>
+
+      <div class="form-field form-full">
+        <label>Description</label>
+        <textarea formControlName="description" rows="3" placeholder="Describe the incident in detail..."></textarea>
+        @if (form.get('description')?.invalid && form.get('description')?.touched) {
+          <span class="error">Description is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Severity</label>
+        <select formControlName="severity">
+          <option value="critical">🔴 Critical</option>
+          <option value="high">🟠 High</option>
+          <option value="medium">🟡 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+
+      <div class="form-field"></div>
+
+      <div class="form-field">
+        <label>Reported Date</label>
+        <input formControlName="reported_date" type="date" />
+        @if (form.get('reported_date')?.invalid && form.get('reported_date')?.touched) {
+          <span class="error">Reported date is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Resolved Date <span style="font-weight:400;color:#94a3b8">(optional)</span></label>
+        <input formControlName="resolved_date" type="date" />
+      </div>
+
+      <div class="form-section">Links</div>
+
+      <div class="form-field">
+        <label>Affected Asset</label>
+        <select formControlName="asset_id">
+          <option value="">— Select asset —</option>
+          @for (a of assets; track a._id) {
+            <option [value]="a._id">{{ a.name }} ({{ a.asset_type }})</option>
+          }
+        </select>
+        @if (form.get('asset_id')?.invalid && form.get('asset_id')?.touched) {
+          <span class="error">Asset is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Assigned Technician</label>
+        <select formControlName="assigned_to_id">
+          <option value="">— Select technician —</option>
+          @for (t of technicians; track t._id) {
+            <option [value]="t._id">{{ t.name }} ({{ t.specialization }})</option>
+          }
+        </select>
+        @if (form.get('assigned_to_id')?.invalid && form.get('assigned_to_id')?.touched) {
+          <span class="error">Technician is required.</span>
+        }
+      </div>
+
+      <div class="form-section">Attachments</div>
+
+      <div class="form-field form-full">
+        <label>Incident Report (PDF)</label>
+        <input type="file" accept="application/pdf" (change)="onReport($event)" />
+      </div>
+
+      @if (error) {
+        <div class="form-error-banner">{{ error }}</div>
+      }
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Save Incident</button>
+        <a routerLink="/incidents" class="btn btn-secondary">Cancel</a>
+      </div>
+
+    </div>
+  </form>
+</div>

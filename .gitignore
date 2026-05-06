@@ -1,0 +1,20 @@
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+backend/seed.py
+Angular_Django_Project 1.docx
+B04_AngularDjango_Report.docx
+CODE_WALKTHROUGH.md
+HANDOFF.md
+plan.md
+frontend/.vscode/
+frontend/README.md
+frontend/src/app/app.spec.ts
+frontend/tsconfig.spec.json
+backend/api/admin.py
+backend/api/tests.py

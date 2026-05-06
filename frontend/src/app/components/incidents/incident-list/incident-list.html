@@ -1,0 +1,84 @@
+<div class="list-header">
+  <div class="list-header-title">
+    <h2>Incidents</h2>
+    <span class="list-count">{{ incidents.length }} record{{ incidents.length !== 1 ? 's' : '' }}</span>
+  </div>
+  <a routerLink="/incidents/new" class="btn btn-primary">+ Add Incident</a>
+</div>
+
+<div class="list-filters">
+  <input [(ngModel)]="search" (ngModelChange)="load()" placeholder="🔍  Search title, description..." class="filter-input" />
+  <select [(ngModel)]="severityFilter" (ngModelChange)="load()" class="filter-select">
+    <option value="">All Severities</option>
+    <option value="critical">Critical</option>
+    <option value="high">High</option>
+    <option value="medium">Medium</option>
+    <option value="low">Low</option>
+  </select>
+  <select [(ngModel)]="ordering" (ngModelChange)="load()" class="filter-select">
+    <option value="-reported_date">Sort: Newest First</option>
+    <option value="reported_date">Sort: Oldest First</option>
+    <option value="severity">Sort: Severity</option>
+  </select>
+</div>
+
+@if (loadError) {
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:1rem 1.25rem;color:#dc2626;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
+    <span>{{ loadError }}</span>
+    <button class="btn btn-secondary btn-sm" (click)="load()">Retry</button>
+  </div>
+}
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-title">Title</th>
+        <th class="col-sev">Severity</th>
+        <th class="col-date">Reported</th>
+        <th class="col-date">Resolved</th>
+        <th class="col-asset">Asset</th>
+        <th class="col-tech">Assigned To</th>
+        <th class="col-doc">Report</th>
+        <th class="col-actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (i of incidents; track i._id) {
+        <tr>
+          <td><span class="cell-primary">{{ i.title }}</span></td>
+          <td><span class="badge badge-{{ i.severity }}">{{ i.severity }}</span></td>
+          <td><span class="cell-secondary">{{ i.reported_date }}</span></td>
+          <td><span class="cell-secondary">{{ i.resolved_date || '—' }}</span></td>
+          <td><span class="cell-secondary">{{ i.asset_name }}</span></td>
+          <td><span class="cell-secondary">{{ i.assigned_to_name }}</span></td>
+          <td>
+            @if (i.report_pdf) {
+              <a class="pdf-link" [href]="mediaUrl(i.report_pdf)" target="_blank">📄 View PDF</a>
+            } @else {
+              <span class="cell-empty">—</span>
+            }
+          </td>
+          <td class="actions">
+            <a [routerLink]="['/incidents', i._id, 'edit']" class="btn btn-primary btn-sm">Edit</a>
+            <button class="btn btn-danger btn-sm" (click)="delete(i._id)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="8" class="empty-cell">
+            <div class="empty-state">
+              @if (loading) {
+                <p>Loading...</p>
+              } @else {
+                <div class="empty-icon">🚨</div>
+                <p>No incidents found</p>
+                <span>No incidents have been reported yet</span>
+              }
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,12 @@
+@if (auth.isLoggedIn()) {
+  <nav>
+    <span class="brand">InfraTrack</span>
+    <a routerLink="/technicians">Technicians</a>
+    <a routerLink="/assets">Assets</a>
+    <a routerLink="/incidents">Incidents</a>
+    <button (click)="logout()">Logout</button>
+  </nav>
+}
+<main>
+  <router-outlet />
+</main>

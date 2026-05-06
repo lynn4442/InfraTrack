@@ -1,0 +1,30 @@
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="brand-icon">⬡</div>
+      <h1>InfraTrack</h1>
+      <p>Create a new account</p>
+    </div>
+    @if (error) { <p class="error" style="margin-bottom:1rem;text-align:center">{{ error }}</p> }
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span class="label-text">Username</span>
+        <input formControlName="username" type="text" placeholder="Choose a username" />
+      </label>
+      @if (form.get('username')?.invalid && form.get('username')?.touched) {
+        <span class="error" style="margin-bottom:0.5rem;display:block;text-align:right">Username is required.</span>
+      }
+      <label>
+        <span class="label-text">Password</span>
+        <input formControlName="password" type="password" placeholder="At least 6 characters" />
+      </label>
+      @if (form.get('password')?.invalid && form.get('password')?.touched) {
+        <span class="error" style="margin-bottom:0.5rem;display:block;text-align:right">Min. 6 characters.</span>
+      }
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Create Account</button>
+    </form>
+    <p class="login-footer">
+      Already have an account? <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>

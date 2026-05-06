@@ -1,0 +1,93 @@
+.login-wrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f2440 0%, #1e3a5f 50%, #0f2440 100%);
+  z-index: 50;
+}
+
+.login-card {
+  background: #fff;
+  padding: 2.5rem 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.login-logo .brand-icon {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  line-height: 1;
+}
+
+.login-logo h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  margin-top: 0.4rem;
+}
+
+.login-logo p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
+.login-card form label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.9rem;
+}
+
+.login-card form label span.label-text {
+  min-width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.login-card form label input {
+  flex: 1;
+  margin-top: 0;
+}
+
+.login-card form label .error {
+  position: absolute;
+}
+
+.login-card .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.login-footer a {
+  color: #3b82f6;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  text-decoration: underline;
+}

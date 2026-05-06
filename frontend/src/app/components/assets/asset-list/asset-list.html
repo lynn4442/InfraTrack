@@ -1,0 +1,90 @@
+<div class="list-header">
+  <div class="list-header-title">
+    <h2>Assets</h2>
+    <span class="list-count">{{ assets.length }} record{{ assets.length !== 1 ? 's' : '' }}</span>
+  </div>
+  <a routerLink="/assets/new" class="btn btn-primary">+ Add Asset</a>
+</div>
+
+<div class="list-filters">
+  <input [(ngModel)]="search" (ngModelChange)="load()" placeholder="🔍  Search name, type, IP..." class="filter-input" />
+  <select [(ngModel)]="statusFilter" (ngModelChange)="load()" class="filter-select">
+    <option value="">All Statuses</option>
+    <option value="active">Active</option>
+    <option value="maintenance">Maintenance</option>
+    <option value="decommissioned">Decommissioned</option>
+  </select>
+  <select [(ngModel)]="ordering" (ngModelChange)="load()" class="filter-select">
+    <option value="name">Sort: Name A–Z</option>
+    <option value="-name">Sort: Name Z–A</option>
+    <option value="purchase_date">Sort: Purchase Date ↑</option>
+    <option value="-purchase_date">Sort: Purchase Date ↓</option>
+  </select>
+</div>
+
+@if (loadError) {
+  <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:1rem 1.25rem;color:#dc2626;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
+    <span>{{ loadError }}</span>
+    <button class="btn btn-secondary btn-sm" (click)="load()">Retry</button>
+  </div>
+}
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-photo">Image</th>
+        <th class="col-name">Name</th>
+        <th class="col-type">Type</th>
+        <th class="col-ip">IP Address</th>
+        <th class="col-status">Status</th>
+        <th class="col-date">Purchase Date</th>
+        <th class="col-doc">Document</th>
+        <th class="col-actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (a of assets; track a._id) {
+        <tr>
+          <td>
+            @if (a.asset_image) {
+              <img class="thumb" [src]="mediaUrl(a.asset_image)" alt="asset" />
+            } @else {
+              <div class="thumb-placeholder">🖥️</div>
+            }
+          </td>
+          <td><span class="cell-primary">{{ a.name }}</span></td>
+          <td><span class="badge badge-green">{{ a.asset_type }}</span></td>
+          <td><span class="cell-mono">{{ a.ip_address }}</span></td>
+          <td><span class="badge badge-{{ a.status }}">{{ a.status }}</span></td>
+          <td><span class="cell-secondary">{{ a.purchase_date }}</span></td>
+          <td>
+            @if (a.technical_doc) {
+              <a class="pdf-link" [href]="mediaUrl(a.technical_doc)" target="_blank">📄 View PDF</a>
+            } @else {
+              <span class="cell-empty">—</span>
+            }
+          </td>
+          <td class="actions">
+            <a [routerLink]="['/assets', a._id, 'edit']" class="btn btn-primary btn-sm">Edit</a>
+            <button class="btn btn-danger btn-sm" (click)="delete(a._id)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="8" class="empty-cell">
+            <div class="empty-state">
+              @if (loading) {
+                <p>Loading...</p>
+              } @else {
+                <div class="empty-icon">🖥️</div>
+                <p>No assets found</p>
+                <span>Add your first asset to get started</span>
+              }
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
